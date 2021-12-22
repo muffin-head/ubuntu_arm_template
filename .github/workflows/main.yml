@@ -26,5 +26,5 @@ jobs:
     - uses: azure/arm-deploy@v1
       with:
         resourceGroupName: ${{ env.ResourceGroupName }}
-        template: sql-database/azuredeploy.json
-        parameters: sql-database/azuredeploy.parameters.json
+        template: azuredeploy.json
+        parameters: azuredeploy.parameters.json
