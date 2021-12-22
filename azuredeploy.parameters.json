@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "serverName": {
-      "value": "GEN-UNIQUE"
+      "value": "sqldb"
     },
     "administratorLogin": {
-      "value": "GEN-UNIQUE"
+      "value": "tanmay2509"
     },
     "administratorLoginPassword": {
       "value": "ubonbz25?!"
