@@ -1,30 +1,30 @@
-name: Deploy ARM Template
-
-on:
-  push:
-    branches:
-      - master
-env:
-  AZURE_SUBSCRIPTION_ID: c816fc53-8793-456b-8701-58f27b52a2ba  # set this to your Azure Subscription Id
-  AZURE_RESOURCE_GROUP: test-rg   # set this to your target resource group
+on: [push]
+name: AzureARMLandingZoneIntern
 
 jobs:
-  build-and-deploy  :
+  build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      ResourceGroupName: test-rg
+      ResourceGroupLocation: "eastus"
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@master
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Deploy ARM Template
-        uses: azure/arm-deploy@v1
-        with:
-          scope: resourcegroup
-          subscriptionId: ${{ env.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
-          template: azuredeploy.json
-          parameters: azuredeploy.parameters.json
+    - uses: actions/checkout@master
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS}}
+    - uses: Azure/CLI@v1
+      with:
+        inlineScript: |
+          #!/bin/bash
+          if $(az group exists --name ${{ env.ResourceGroupName }}) ; then
+            echo "Azure resource group already exists, skipping creation..."
+          else
+            az group create --name ${{ env.ResourceGroupName }} --location ${{ env.ResourceGroupLocation }}
+            echo "Azure resource group created"
+          fi
+  
+    - uses: azure/arm-deploy@v1
+      with:
+        resourceGroupName: ${{ env.ResourceGroupName }}
+        template: sql-database/azuredeploy.json
+        parameters: sql-database/azuredeploy.parameters.json
