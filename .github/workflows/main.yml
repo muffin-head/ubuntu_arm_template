@@ -9,7 +9,7 @@ env:
   AZURE_RESOURCE_GROUP: test-rg   # set this to your target resource group
 
 jobs:
-  deploy-virtual-network-template:
+  build-and-deploy  :
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -26,4 +26,5 @@ jobs:
           scope: resourcegroup
           subscriptionId: ${{ env.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
-          template: ./ubuntu_arm_template/azuredeploy.json
+          template: azuredeploy.json
+          parameters: azuredeploy.parameters.json
