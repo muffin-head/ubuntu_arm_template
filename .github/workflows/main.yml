@@ -5,7 +5,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env:
-      ResourceGroupName: sql
+      ResourceGroupName: sql-rg
       ResourceGroupLocation: "eastus"
     steps:
     - uses: actions/checkout@master
